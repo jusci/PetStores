@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.withNoArgs;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
 
 public class Pet {
 
@@ -52,6 +53,8 @@ public class Pet {
                 .statusCode(200)
                 .body("name", is("Jimmy"))
                 .body("status",is("available"))
+                .body("category.name",is("dog"))//usa is quando nao tem []
+                .body("tags.name",contains("sta"))//usa quando tem []
         ;
 
 
