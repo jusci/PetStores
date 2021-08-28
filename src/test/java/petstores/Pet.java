@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.withNoArgs;
+import static org.hamcrest.CoreMatchers.is;
 
 public class Pet {
 
@@ -48,7 +50,8 @@ public class Pet {
         .then()
                 .log().all()
                 .statusCode(200)
-
+                .body("name", is("Jimmy"))
+                .body("status",is("available"))
         ;
 
 
