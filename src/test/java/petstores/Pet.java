@@ -53,7 +53,7 @@ public class Pet {
         .then()
                 .log().all()
                 .statusCode(200)
-                .body("name", is("Jimmy"))
+                .body("name", is("Snoopy"))
                 .body("status",is("available"))
                 .body("category.name",is("AXL345789POWS"))//usa is quando nao tem []
                 .body("tags.name",contains("data"))//usa quando tem []
@@ -61,7 +61,7 @@ public class Pet {
 
     }
 
-    @Test (priority =2) // estabelece prioridade na ordem da execução, quando se executa pelo build.grandle
+    @Test(priority =2) // estabelece prioridade na ordem da execução, quando se executa pelo build.grandle
 
     public void consultarPet(){
 
@@ -78,7 +78,7 @@ public class Pet {
         .then()
 
                 .statusCode(200)
-                .body("name", is("Jimmy"))
+                .body("name", is("Snoopy"))
                 .body("status",is("available"))
                 .body("category.name",is("AXL345789POWS"))//usa is quando nao tem []
                 //.body("tags.name",contains("data"))//usa quando tem []
@@ -90,6 +90,59 @@ public class Pet {
 
 
     }
+
+    @Test(priority=3)
+
+    public void alterarPet() throws IOException {
+        String jsonBody = lerJson("db/pet2.json");
+
+        given()
+
+                .contentType("application/json")
+                .log().all()
+                .body(jsonBody)
+
+        .when()
+                .put(uri)
+
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name",is("Snoopy"))
+                .body("status",is ("sold"))
+                ;
+
+
+    }
+
+    @Test (priority=4)
+
+    public void excluirPet(){
+
+        String petID = "1985031610";
+
+        given()
+                .contentType("application/json")
+                .log().all()
+
+        .when()
+                .delete(uri + "/" + petID)
+
+
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("code",is(200))
+                .body("type",is("unknown"))
+                .body("message",is (petID))
+
+
+
+;
+
+
+    }
+
 
 
 }
